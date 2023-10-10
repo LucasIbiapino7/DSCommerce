@@ -13,6 +13,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//indica que a chave é auto incrementada
     private Long id;
     private String name;
+
+    @Column(unique = true)//permite que não tenha repetições nesse campo da tabela
     private String email;
     private String phone;
     private LocalDate birthDate;
