@@ -18,7 +18,7 @@ public class User {
     private LocalDate birthDate;
     private String password;
 
-    @OneToMany(mappedBy = "client")//notação de 1 para muitos
+    @OneToMany(mappedBy = "client")//notação de 1 para muitos ("client" = nome do atributo na classe muitos(order))
     List<Order> orders = new ArrayList<>();//necessário criar uma lista do tipo do "muitos"
 
     public User(){}
@@ -72,5 +72,9 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }

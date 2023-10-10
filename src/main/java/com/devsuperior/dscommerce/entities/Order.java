@@ -20,6 +20,9 @@ public class Order {
     @JoinColumn(name = "client_id")//indica o nome do campo da chave estrangeira
     private User client;//composição
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order(){}
 
     public Order(Long id, Instant moment, OrderStatus status, User client) {
