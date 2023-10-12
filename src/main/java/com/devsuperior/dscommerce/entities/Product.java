@@ -29,6 +29,7 @@ public class Product {
     //na classe OrderItemPK e que referencia o produto
     private Set<OrderItem> items = new HashSet<>();//coleção que evita repetições
 
+    public Product(){}
     public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
