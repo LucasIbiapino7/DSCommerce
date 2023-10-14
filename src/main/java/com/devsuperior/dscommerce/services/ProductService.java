@@ -20,10 +20,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)//indica ao banco que vai ser feita apenas uma leitura. BOA PRÁTICA
     public ProductDTO findById(Long id){
-        Optional<Product> result = repository.findById(id);//faz a busca no banco e retorna um obj do tipo optional
-        Product product = result.get();//pegamos o product do obj optional
-        ProductDTO dto = new ProductDTO(product);//instanciamos o product DTO
-        return dto;
+        Product product  = repository.findById(id).get();//faz a busca no banco e retorna um obj do tipo optional
+        return new ProductDTO(product);//instanciamos o product DTO
     }
 
     @Transactional(readOnly = true)
@@ -31,6 +29,30 @@ public class ProductService {
         Page<Product> result = repository.findAll(pageable);//pegando no banco todos os produtos e armazenamos numa lista
         return result.map(x -> new ProductDTO(x));//pegamos todos os produtos da lista e instanciamos
         //uma lista de products DTO para cada produto
+    }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO dto){
+        Product entity = new Product();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);//retorna o objeto atualizado
+        return new ProductDTO(entity);//tranformamos em productDTO novamente
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto){
+        Product entity = repository.getReferenceById(id);//instancia um objeto monitorado pela JPA sem ir no banco
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setPrice(dto.getPrice());//transfirimos todos os dados vindos do productDTO para um PRODUCT, que é o tipo de dado
+        //que faz o relacionamento com o banco de dados
     }
 
 }
