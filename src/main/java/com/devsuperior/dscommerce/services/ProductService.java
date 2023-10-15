@@ -58,7 +58,7 @@ public class ProductService {
         }
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS)//MACETE
     public void delete(Long id){
         if (!repository.existsById(id)){//testa se existe esse produto no banco
             throw new ResourceNotFoundException("recurso não encontrado");//se não existir, gera uma exceção
