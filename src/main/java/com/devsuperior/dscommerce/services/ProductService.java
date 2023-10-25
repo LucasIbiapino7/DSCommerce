@@ -31,8 +31,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> result = repository.findAll(pageable);//pegando no banco todos os produtos e armazenamos numa lista
+    public Page<ProductDTO> findAll(String name, Pageable pageable){
+        Page<Product> result = repository.searchByName(name, pageable);//pegando no banco todos os produtos e armazenamos numa lista
         return result.map(x -> new ProductDTO(x));//pegamos todos os produtos da lista e instanciamos
         //uma lista de products DTO para cada produto
     }
@@ -43,7 +43,6 @@ public class ProductService {
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);//retorna o objeto atualizado
         return new ProductDTO(entity);//tranformamos em productDTO novamente
-
     }
 
     @Transactional
